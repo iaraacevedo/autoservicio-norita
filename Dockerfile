@@ -1,8 +1,8 @@
-# Usamos una imagen oficial de PHP con Apache
+# 1. Usamos PHP 8.2 con Apache integrado (Imagen oficial)
 FROM php:8.2-apache
 
-# Instalamos dependencias del sistema y extensiones de PHP
-# Agregamos 'curl' y 'git' que son vitales para descargar composer sin errores
+# 2. Instalamos dependencias del sistema y extensiones necesarias
+# Agregamos 'git' y 'curl' y 'unzip' que son vitales para Composer
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
@@ -11,34 +11,37 @@ RUN apt-get update && apt-get install -y \
     git \
     && docker-php-ext-install pdo_mysql zip
 
-# Activamos el módulo rewrite de Apache para que funcionen las rutas de Laravel
+# 3. Activamos mod_rewrite de Apache (Vital para las rutas de Laravel)
 RUN a2enmod rewrite
 
-# --- CAMBIO IMPORTANTE ---
-# Instalamos Composer MANUALMENTE usando curl.
-# Esto evita el error de "failed to authorize" al intentar bajar la imagen de Docker Hub.
+# 4. INSTALACIÓN MANUAL DE COMPOSER (El arreglo del error)
+# Descargamos el archivo directamente en lugar de usar la imagen de Docker Hub
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer
 
-# Configuramos el directorio de trabajo
+# 5. Configuramos la carpeta de trabajo
 WORKDIR /var/www/html
 
-# Copiamos todos tus archivos al servidor
+# 6. Copiamos todos tus archivos al servidor
 COPY . .
 
-# Instalamos las librerías de Laravel
-# El flag --ignore-platform-reqs ayuda si hay discrepancias de versiones de PHP
+# 7. Instalamos las librerías de Laravel
 RUN composer install --no-dev --optimize-autoloader
 
-# Damos permisos a las carpetas de almacenamiento (Vital para que no de Error 500)
+# 8. Damos permisos de escritura a las carpetas de logs y cache
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Configuramos Apache para que apunte a la carpeta public
+# 9. Configuramos Apache para que apunte a la carpeta 'public'
 ENV APACHE_DOCUMENT_ROOT /var/www/html/public
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
-# Exponemos el puerto 80
+# 10. Exponemos el puerto 80
 EXPOSE 80
 
-# Comando final: Corre migraciones, seeders y levanta el servidor
+# 11. COMANDO DE ARRANQUE:
+# - Borra y crea la base de datos (--seed)
+# - Vincula las imágenes (storage:link)
+# - Inicia el servidor Apache
 CMD php artisan migrate:fresh --seed --force && php artisan storage:link && apache2-foreground
+
+# Comentario para forzar actualización en Git: Versión Final Railway v2
