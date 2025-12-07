@@ -1,0 +1,57 @@
+@extends('layouts.plantilla')
+
+@section('contenido')
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow border-0">
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0 fw-bold">Editar Producto: {{ $producto->nombre }}</h4>
+                </div>
+
+                <div class="card-body">
+                    <form action="{{ route('admin.productos.update', $producto->id) }}" method="POST">
+                        @csrf @method('PUT')
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" value="{{ $producto->nombre }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Precio ($)</label>
+                            <input type="number" step="0.01" name="precio" class="form-control" value="{{ $producto->precio }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Categoría</label>
+                            <select name="categoria" class="form-select" required>
+                                @foreach($categorias as $cat)
+                                <option value="{{ $cat->nombre }}" {{ $producto->categoria == $cat->nombre ? 'selected' : '' }}>
+                                    {{ $cat->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">URL Imagen</label>
+                            <input type="url" name="imagen_url" class="form-control" value="{{ $producto->imagen_url }}" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Descripción</label>
+                            <textarea name="descripcion" class="form-control" rows="3">{{ $producto->descripcion }}</textarea>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-dark">Actualizar Cambios</button>
+                            <a href="{{ route('admin.productos.index') }}" class="btn btn-outline-secondary">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
