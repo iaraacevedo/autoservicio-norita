@@ -31,7 +31,8 @@ class PedidoAdminController extends Controller
             } catch (\Exception $e) {
                 // Si falla el correo (por ej. en local sin internet), avisamos pero no rompemos la página
                 // Esto es importante para que el sistema no se trabe si falla Gmail
-                $mensaje .= " (Atención: Estado cambiado, pero el correo no salió. Revisa tu .env)";
+                // $mensaje .= " (Atención: Estado cambiado, pero el correo no salió. Revisa tu .env)";
+                $mensaje .= " ERROR REAL: " . $e->getMessage();
             }
         }
 
