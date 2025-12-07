@@ -45,5 +45,5 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 # 10. Puerto
 EXPOSE 80
 
-# 11. Arranque
-CMD php artisan migrate:fresh --seed --force || true && php artisan storage:link || true && apache2-foreground
+
+CMD php artisan migrate --force || true && php artisan storage:link || true && apache2-foreground
