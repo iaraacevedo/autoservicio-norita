@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('admin.productos.update', $producto->id) }}" method="POST">
+                    <form action="{{ route('admin.productos.update', $producto->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf @method('PUT')
 
                         <div class="mb-3">
@@ -34,9 +34,27 @@
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                             <label class="form-label fw-bold">URL Imagen</label>
                             <input type="url" name="imagen_url" class="form-control" value="{{ $producto->imagen_url }}" required>
+                        </div> -->
+                        <!-- SECCIÓN DE IMAGEN MEJORADA -->
+                        <div class="mb-3 p-3 bg-light border rounded">
+                            <label class="form-label fw-bold mb-2">Imagen del Producto</label>
+
+                            <!-- Opción A: Subir Archivo -->
+                            <div class="mb-3">
+                                <label class="form-label small text-muted">Opción A: Subir foto desde tu PC</label>
+                                <input type="file" name="imagen_archivo" class="form-control" accept="image/*">
+                            </div>
+
+                            <div class="text-center text-muted small my-2">- O -</div>
+
+                            <!-- Opción B: Pegar Link -->
+                            <div class="mb-0">
+                                <label class="form-label small text-muted">Opción B: Pegar enlace de internet</label>
+                                <input type="url" name="imagen_url" class="form-control" value="{{ $producto->imagen_url }}">
+                            </div>
                         </div>
 
                         <div class="mb-3">

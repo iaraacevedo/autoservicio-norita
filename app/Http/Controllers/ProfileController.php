@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User; // <--- Importante: Asegurarnos de que conoce al Modelo User
+use App\Models\User;
 
 class ProfileController extends Controller
 {
@@ -43,7 +43,7 @@ class ProfileController extends Controller
         }
 
         // 4. Guardar
-        $user->save(); // Ahora el error debería haber desaparecido
+        $user->save();
 
         return redirect()->back()->with('success', '¡Perfil actualizado correctamente!');
     }
