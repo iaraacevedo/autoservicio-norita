@@ -11,25 +11,26 @@
     <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
 
-    <!-- Fuente Moderna: Poppins (Google Fonts) -->
+    <!-- Fuente Moderna: Poppins -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
-        /* 1. Fuente y Fondo */
+        /* 1. FUENTE GLOBAL */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f6f9;
-            /* Un gris un pelín más azulado/moderno */
+            /* Tu gris azulado moderno */
         }
 
-        /* 2. Barra de Navegación */
+        /* --- TUS ESTILOS PREMIUM (Restaurados) --- */
+
+        /* Barra con Degradado y Línea Amarilla */
         .navbar {
-            background: linear-gradient(to right, #000000, #1a1a1a);
-            /* Degradado sutil */
+            background: linear-gradient(to right, #000000, #1a1a1a) !important;
+            /* Importante para pisar el azul */
             border-bottom: 3px solid #ffc107;
-            /* Línea dorada/amarilla abajo para dar color */
         }
 
         .navbar-brand img {
@@ -38,10 +39,9 @@
 
         .navbar-brand img:hover {
             transform: scale(1.1) rotate(-2deg);
-            /* Efecto divertido al pasar el mouse */
         }
 
-        /* 3. Tarjetas de Productos (Cards) */
+        /* Tarjetas de Productos */
         .product-card {
             border: none;
             border-radius: 15px;
@@ -52,9 +52,7 @@
 
         .product-card:hover {
             transform: translateY(-10px);
-            /* Se levanta */
             box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            /* Sombra suave */
         }
 
         .product-image-container {
@@ -72,15 +70,13 @@
 
         .product-card:hover .product-image-container img {
             transform: scale(1.05);
-            /* Zoom suave en la foto */
         }
 
-        /* 4. Botones */
+        /* Botón Norita (Negro Redondo) */
         .btn-norita {
             background-color: #000;
             color: #fff;
             border-radius: 50px;
-            /* Botones redondos */
             padding: 8px 20px;
             border: 2px solid #000;
             transition: all 0.3s;
@@ -91,7 +87,7 @@
             color: #000;
         }
 
-        /* 5. Footer */
+        /* Footer Estilo Norita */
         footer {
             background: #111;
             color: #aaa;
@@ -100,30 +96,60 @@
         footer h5 {
             color: #fff;
             border-left: 3px solid #ffc107;
-            /* Detalle de color */
             padding-left: 10px;
+        }
+
+        /* --- EL "PARCHE" ANTI-AZUL (NUEVO) --- */
+        /* Esto fuerza a que todo lo "Primary" de Bootstrap se vea Negro */
+
+        .btn-primary {
+            background-color: #000000 !important;
+            border-color: #000000 !important;
+        }
+
+        .btn-primary:hover,
+        .btn-primary:active,
+        .btn-primary:focus {
+            background-color: #333333 !important;
+            border-color: #333333 !important;
+        }
+
+        .btn-outline-primary {
+            color: #000000 !important;
+            border-color: #000000 !important;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        .text-primary {
+            color: #000000 !important;
+            /* Adiós texto azul */
+        }
+
+        a {
+            text-decoration: none;
+            /* Enlaces sin subrayado */
         }
     </style>
 </head>
 
-<body class="d-flex flex-column min-vh-100"> <!-- Flex para que el footer siempre quede abajo -->
+<body class="d-flex flex-column min-vh-100">
 
-    <!-- BARRA DE NAVEGACIÓN (Negro Puro) -->
-    <!-- Agregamos py-3 para dar más altura a la barra -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow py-3" style="background-color: #000;">
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow py-3">
         <div class="container">
-            <!-- Logo -->
+            <!-- Logo Grande -->
             <a class="navbar-brand" href="{{ route('tienda.index') }}">
-                <!-- AUMENTADO: height: 90px y width: auto para que se vea grande y alargado -->
-                <img src="{{ asset('img/logo.jpg') }}" alt="Autoservicio Norita" style="height: 90px; width: auto;">
+                <img src="{{ asset('img/logo.jpg') }}" alt="Autoservicio Norita" style="height: 80px; width: auto;">
             </a>
 
-            <!-- Botón Hamburguesa para Móvil -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <!-- Menú Derecho -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <div class="d-flex align-items-center gap-3">
 
@@ -135,19 +161,19 @@
                         </span>
                     </a>
 
-                    <!-- Menú de Usuario -->
+                    <!-- Menú Usuario -->
                     @guest
-                    <div class="vr text-white mx-2 d-none d-lg-block"></div> <!-- Separador vertical -->
-                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Ingresar</a>
-                    <a href="{{ route('register') }}" class="btn btn-light btn-sm fw-bold">Registrarse</a>
+                    <div class="vr text-white mx-2 d-none d-lg-block"></div>
+                    <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm rounded-pill px-3">Ingresar</a>
+                    <a href="{{ route('register') }}" class="btn btn-light btn-sm fw-bold rounded-pill px-3">Registrarse</a>
                     @else
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
                             <i class="bi bi-person-circle me-1"></i> {{ Auth::user()->name }}
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow">
+                        <ul class="dropdown-menu dropdown-menu-end shadow border-0">
                             @if(Auth::user()->rol == 'admin')
-                            <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Panel Admin</a></li>
+                            <li><a class="dropdown-item fw-bold" href="{{ route('admin.dashboard') }}"><i class="bi bi-speedometer2"></i> Panel Admin</a></li>
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
@@ -170,42 +196,33 @@
     <!-- ALERTAS -->
     @if(session('success'))
     <div class="container mt-4">
-        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0" role="alert">
+        <div class="alert alert-success alert-dismissible fade show shadow-sm border-0 bg-success text-white" role="alert">
             <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
     @endif
 
-    <!-- CONTENIDO PRINCIPAL -->
+    <!-- CONTENIDO -->
     <div class="container my-4 flex-grow-1">
         @yield('contenido')
     </div>
 
-    <!-- PIE DE PÁGINA (Footer) Profesional -->
-    <footer class="bg-dark text-white pt-5 pb-3 mt-auto">
+    <!-- FOOTER -->
+    <footer class="pt-5 pb-3 mt-auto">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 mb-4">
-                    <h5 class="fw-bold mb-3">Autoservicio Norita</h5>
-                    <p class="small text-white-50">
+                    <h5 class="fw-bold mb-3 border-secondary pb-2 d-inline-block">Autoservicio Norita</h5>
+                    <p class="small text-white-50 mt-2">
                         La calidad de siempre, ahora online. Hacé tu pedido y retirá sin esperas.
                     </p>
                 </div>
                 <div class="col-md-4 mb-4">
                     <h5 class="fw-bold mb-3">Contacto</h5>
                     <ul class="list-unstyled small text-white-50">
-                        <li class="mb-2">
-                            <a href="https://maps.google.com/?q=Avenida+Sabin+781+Resistencia" target="_blank" class="text-white-50 text-decoration-none">
-                                <i class="bi bi-geo-alt-fill me-2"></i> Av. Sabin 781, Resistencia
-                            </a>
-                        </li>
-                        <li class="mb-2">
-                            <!-- Reemplaza el numero 549... con el real de Norita -->
-                            <a href="https://wa.me/5493624000000?text=Hola+Norita+tengo+una+consulta" target="_blank" class="text-white-50 text-decoration-none">
-                                <i class="bi bi-whatsapp me-2"></i> 3624-XXXXXX
-                            </a>
-                        </li>
+                        <li class="mb-2"><i class="bi bi-geo-alt-fill me-2"></i> Av. Sabin 781, Resistencia</li>
+                        <li class="mb-2"><i class="bi bi-whatsapp me-2"></i> 3625-159450</li>
                     </ul>
                 </div>
                 <div class="col-md-4 mb-4">
@@ -219,12 +236,12 @@
             </div>
             <hr class="border-secondary">
             <div class="text-center small text-white-50">
-                <p class="mb-0">© 2025 Autoservicio Norita</p>
+                <p class="mb-0">© 2025 Autoservicio Norita - Trabajo de PPS (UTN FRRe)</p>
             </div>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
+    <!-- JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
