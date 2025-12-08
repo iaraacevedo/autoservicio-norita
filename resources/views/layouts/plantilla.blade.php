@@ -17,19 +17,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
     <style>
+        /* --- 0. REGLA MAESTRA: ADIÓS AZUL (Variable Override) --- */
+        :root {
+            --bs-primary: #000000;
+            --bs-primary-rgb: 0, 0, 0;
+            --bs-link-color: #000000;
+            --bs-link-hover-color: #333333;
+            --bs-focus-ring-color: rgba(0, 0, 0, 0.25);
+        }
+
         /* 1. FUENTE GLOBAL */
         body {
             font-family: 'Poppins', sans-serif;
             background-color: #f4f6f9;
-            /* Tu gris azulado moderno */
         }
 
-        /* --- TUS ESTILOS PREMIUM (Restaurados) --- */
-
-        /* Barra con Degradado y Línea Amarilla */
+        /* --- TUS ESTILOS PREMIUM --- */
         .navbar {
             background: linear-gradient(to right, #000000, #1a1a1a) !important;
-            /* Importante para pisar el azul */
             border-bottom: 3px solid #ffc107;
         }
 
@@ -41,7 +46,6 @@
             transform: scale(1.1) rotate(-2deg);
         }
 
-        /* Tarjetas de Productos */
         .product-card {
             border: none;
             border-radius: 15px;
@@ -72,7 +76,6 @@
             transform: scale(1.05);
         }
 
-        /* Botón Norita (Negro Redondo) */
         .btn-norita {
             background-color: #000;
             color: #fff;
@@ -87,7 +90,6 @@
             color: #000;
         }
 
-        /* Footer Estilo Norita */
         footer {
             background: #111;
             color: #aaa;
@@ -99,9 +101,7 @@
             padding-left: 10px;
         }
 
-        /* --- EL "PARCHE" ANTI-AZUL (NUEVO) --- */
-        /* Esto fuerza a que todo lo "Primary" de Bootstrap se vea Negro */
-
+        /* --- PARCHES DE SEGURIDAD VISUAL --- */
         .btn-primary {
             background-color: #000000 !important;
             border-color: #000000 !important;
@@ -126,12 +126,51 @@
 
         .text-primary {
             color: #000000 !important;
-            /* Adiós texto azul */
         }
 
         a {
             text-decoration: none;
-            /* Enlaces sin subrayado */
+            color: inherit;
+        }
+
+        /* CORRECCIÓN MENÚ DESPLEGABLE */
+        .dropdown-item {
+            color: #000000 !important;
+        }
+
+        .dropdown-item:hover,
+        .dropdown-item:focus {
+            background-color: #e9ecef !important;
+            color: #000000 !important;
+        }
+
+        .dropdown-item:active,
+        .dropdown-item.active {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+        }
+
+        /* CORRECCIÓN FORMULARIOS */
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #000000 !important;
+            box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* --- SOLUCIÓN NUCLEAR --- */
+        /* Esto elimina el contorno azul por defecto del navegador al hacer clic en CUALQUIER cosa */
+        *:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            /* Si prefieres una sombra negra sutil, cambia 'none' por la sombra */
+        }
+
+        /* Restauramos un foco sutil solo para inputs para que se sepa dónde se escribe */
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #000 !important;
+            box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, .25) !important;
         }
     </style>
 </head>
@@ -178,7 +217,10 @@
                                 <hr class="dropdown-divider">
                             </li>
                             @endif
+
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="bi bi-person-gear"></i> Mi Perfil</a></li>
                             <li><a class="dropdown-item" href="{{ route('tienda.mis_pedidos') }}"><i class="bi bi-bag-check"></i> Mis Pedidos</a></li>
+
                             <li>
                                 <form action="{{ route('logout') }}" method="POST">
                                     @csrf
@@ -236,7 +278,7 @@
             </div>
             <hr class="border-secondary">
             <div class="text-center small text-white-50">
-                <p class="mb-0">© 2025 Autoservicio Norita - Trabajo de PPS (UTN FRRe)</p>
+                <p class="mb-0">© 2025 Autoservicio Norita</p>
             </div>
         </div>
     </footer>

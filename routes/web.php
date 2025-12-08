@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\TiendaController;
 use App\Http\Controllers\CarritoController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ProductoController as AdminController;
 
 // Ruta principal: Catálogo de productos
@@ -49,24 +50,10 @@ Route::prefix('admin')->group(function () {
     Route::put('/pedidos/{id}/estado', [App\Http\Controllers\Admin\PedidoAdminController::class, 'actualizarEstado'])
         ->name('admin.pedidos.update_estado');
 });
-
+Route::middleware('auth')->group(function () {
+    Route::get('/perfil', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/perfil', [ProfileController::class, 'update'])->name('profile.update');
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/debug-db', function () {
-    $config = config('database.connections.mysql');
-    // Ocultamos la contraseña por seguridad
-    unset($config['password']);
-
-    // Probamos la conexión real
-    try {
-        DB::connection()->getPdo();
-        echo "<h1>✅ Conexión EXITOSA</h1>";
-    } catch (\Exception $e) {
-        echo "<h1>❌ Error de Conexión: " . $e->getMessage() . "</h1>";
-    }
-
-    echo "<h3>Configuración que está usando Laravel:</h3>";
-    dd($config);
-});
